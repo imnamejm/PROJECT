@@ -3,10 +3,9 @@ import game_world
 import game_framework
 
 class Target:
-    def __init__(self, x = 600, y = 600, pattern = 1, velocity = 1):
+    def __init__(self, x = 600, y = 600, pattern = 2, velocity = 1):
         self.image = load_image('target.png')
         self.x, self.y, self.pattern, self.velocity = x, y, pattern, velocity
-
 
     def update(self):
         if self.pattern == 1:
@@ -16,6 +15,15 @@ class Target:
                 self.velocity = 1
             self.x += self.velocity * 50 * game_framework.frame_time
 
+        elif self.pattern == 2:
+            if self.y > 650:
+                self.velocity = -1
+            elif self.y < 550:
+                self.velocity = 1
+            self.y += self.velocity * 50 * game_framework.frame_time
+
+        elif self.pattern == 3:
+            pass
 
     def draw(self):
         self.image.draw(self.x, self.y)
