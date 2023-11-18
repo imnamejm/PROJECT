@@ -7,23 +7,36 @@ from target import Target
 from field import Field
 
 field_x, field_y = 1200, 800
+mouse_click = False
 
 def handle_events():
+
     events = get_events()
+
     global x, y
+    global mouse_click
+
     for event in events:
+
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
-        elif event.type == SDL_MOUSEMOTION:
-            x, y = event.x, field_y - 1 - event.y
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-        elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
-            x, y = event.x, field_y - 1 - event.y
-            ball.put_mouse(ball, x, y)
-            hide_cursor()
+            game_framework.quit()
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            if event.button == SDL_BUTTON_LEFT:
+                mouse_click = True
+        elif event.type == SDL_MOUSEBUTTONUP:
+            if event.button == SDL_BUTTON_LEFT:
+                mouse_click = False
+        elif event.type == SDL_MOUSEMOTION:
+            if mouse_click:
+                x, y = event.x, field_y - 1 - event.y
+                ball.put_mouse(x, y)
+            elif not mouse_click:
+                pass
+
+
 
 
 def init():

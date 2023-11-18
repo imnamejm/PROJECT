@@ -12,7 +12,7 @@ class Ball:
     image = None
 
     def __init__(self):
-        if Ball.image == None:
+        if Ball.image is None:
             Ball.image = load_image('basicball.png')
             self.state_machine = StateMachine(self)
             self.x, self.y, self.velocity = 600, 100, 1
@@ -30,9 +30,9 @@ class Ball:
     def get_bb(self):
         return self.x - 50, self.y - 50, self.x + 50, self.y + 50
 
-    def put_mouse(self, x, y):
-        self.x = x
-        self.y = y
+    def put_mouse(self, mx, my):
+        self.x = mx
+        self.y = my
 
 
 class Idle:
