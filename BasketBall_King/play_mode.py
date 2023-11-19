@@ -34,7 +34,10 @@ def handle_events():
                 x, y = event.x, field_y - 1 - event.y
                 ball.put_mouse(x, y)
             elif not mouse_click:
-                pass
+                x, y = event.x, field_y - 1 - event.y
+                if y > 400:
+                    ball.shoot(x, y)
+
 
 
 

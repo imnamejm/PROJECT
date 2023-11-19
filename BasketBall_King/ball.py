@@ -13,7 +13,7 @@ class Ball:
         if Ball.image is None:
             Ball.image = load_image('basicball.png')
             self.state_machine = StateMachine(self)
-            self.x, self.y, self.velocity = 600, 100, 1
+            self.x, self.y, self.velocity = 600, 100, 1  # 1 = UP / -1 =DOWN
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -27,7 +27,7 @@ class Ball:
 
         if self.y < 100:
             self.y = 100
-        elif self.y >700:
+        elif self.y > 700:
             self.y = 700
 
     def handle_event(self, event):
@@ -39,6 +39,23 @@ class Ball:
     def put_mouse(self, mx, my):
         self.x = mx
         self.y = my
+
+    def shoot(self, mx, my):
+        end_px = mx
+        end_py = my
+
+        while self.y < 700:
+            self.velocity = 1  # 공이 올라감
+            self.y += self.velocity * 1 * game_framework.frame_time
+            self.x += (end_py - 100 / end_px - 600) * 1 * game_framework.frame_time
+
+        if self.y <= 700:
+            self.velocity = -1  # 공이 내려감
+            while self.y > 100:
+                self.y += self.velocity * 10 * game_framework.frame_time
+                self.x += (end_py - 100 / end_px - 600) * 10 * game_framework.frame_time
+
+
 
 
 class Idle:
