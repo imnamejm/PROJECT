@@ -2,8 +2,6 @@ from pico2d import *
 import game_framework
 import game_world
 
-def pick_ball(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_MOUSEBUTTONDOWN and e[1].type == SDL_BUTTON_LEFT
 
 def shoot_ball(e):
     return e[0] == 'INPUT' and e[1].type == SDL_MOUSEBUTTONUP and e[1].type == SDL_BUTTON_LEFT
@@ -22,7 +20,15 @@ class Ball:
         draw_rectangle(*self.get_bb())
 
     def update(self):
-        pass
+        if self.x < 100:
+            self.x = 100
+        elif self.x > 1100:
+            self.x = 1100
+
+        if self.y < 100:
+            self.y = 100
+        elif self.y >700:
+            self.y = 700
 
     def handle_event(self, event):
        pass
@@ -74,8 +80,8 @@ class StateMachine:
 #        self.ball = ball
 #        self.cur_state = Idle
 #        self.transitions = {
-#            Idle: {pick_ball: Grab, shoot_ball: Grab},
-#            Grab: {pick_ball: Idle, shoot_ball: Idle}
+#            Idle: {shoot_ball: Grab},
+#            Grab: {shoot_ball: Idle}
 #        }
     def update(self):
         pass
