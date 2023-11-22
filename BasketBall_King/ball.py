@@ -30,6 +30,13 @@ class Ball:
         elif self.y > 700:
             self.y = 700
 
+        # 중력
+        if self.y < 400:
+           self.y -= self.velocity * 100 * game_framework.frame_time
+
+
+
+
     def handle_event(self, event):
        pass
 

@@ -42,6 +42,7 @@ def handle_events():
 
 
 
+
 def init():
     global field
     global target
