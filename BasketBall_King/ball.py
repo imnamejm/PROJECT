@@ -14,12 +14,14 @@ class Ball:
             Ball.image = load_image('basicball.png')
             self.state_machine = StateMachine(self)
             self.x, self.y, self.velocity = 600, 100, 1  # 1 = UP / -1 =DOWN
+            self.sx, self.sy = 600, 100  # sx, sy = shoot_x, shoot_y
 
     def draw(self):
         self.image.draw(self.x, self.y)
         draw_rectangle(*self.get_bb())
 
     def update(self):
+        # 공 이동 제한
         if self.x < 100:
             self.x = 100
         elif self.x > 1100:
@@ -34,11 +36,22 @@ class Ball:
         if self.y < 400:
            self.y -= self.velocity * 100 * game_framework.frame_time
 
+        # 슛
+        if 700 > self.y > 400:
+            self.y += self.velocity * 1 * game_framework.frame_time
+            self.x += (self.sy - 100 / self.sx - 600) * 1 * game_framework.frame_time
+            self.velocity = -1
 
-
+        if self.y <= 700:
+            if self.velocity == -1:  # 공이 내려감
+                if self.y > 100:
+                    self.y += self.velocity * 10 * game_framework.frame_time
+                    self.x += (self.sy - 100 / self.sx - 600) * 10 * game_framework.frame_time
+                else:
+                    self.velocity = 1
 
     def handle_event(self, event):
-       pass
+        pass
 
     def get_bb(self):
         return self.x - 50, self.y - 50, self.x + 50, self.y + 50
@@ -47,23 +60,9 @@ class Ball:
         self.x = mx
         self.y = my
 
-    def shoot(self, mx, my):
-        end_px = mx
-        end_py = my
-
-        while self.y < 700:
-            self.velocity = 1  # 공이 올라감
-            self.y += self.velocity * 1 * game_framework.frame_time
-            self.x += (end_py - 100 / end_px - 600) * 1 * game_framework.frame_time
-
-        if self.y <= 700:
-            self.velocity = -1  # 공이 내려감
-            while self.y > 100:
-                self.y += self.velocity * 10 * game_framework.frame_time
-                self.x += (end_py - 100 / end_px - 600) * 10 * game_framework.frame_time
-
-
-
+    def save_mouse(self, mx, my):
+        self.sx = mx
+        self.sy = my
 
 class Idle:
     @staticmethod
