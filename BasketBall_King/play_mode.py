@@ -5,6 +5,7 @@ import game_world
 from ball import Ball
 from target import Target
 from field import Field
+from ring import Ring
 
 field_x, field_y = 1200, 800
 mouse_click = False
@@ -26,18 +27,16 @@ def handle_events():
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.button == SDL_BUTTON_LEFT:
                 mouse_click = True
+                x, y = event.x, field_y - 1 - event.y
+                ball.put_mouse(x, y)
         elif event.type == SDL_MOUSEBUTTONUP:
             if event.button == SDL_BUTTON_LEFT:
                 mouse_click = False
+                ball.save_mouse()
         elif event.type == SDL_MOUSEMOTION:
             if mouse_click:
                 x, y = event.x, field_y - 1 - event.y
-                ball.put_mouse(x, y)
-            elif not mouse_click:
-                x, y = event.x, field_y - 1 - event.y
-                if y > 400:
-                    x, y = event.x, field_y - 1 - event.y
-                    ball.save_mouse(x, y)
+                ball.move_mouse(x, y)
 
 
 
@@ -48,6 +47,7 @@ def init():
     global field
     global target
     global ball
+    global ring
 
     running = True
 
@@ -56,6 +56,10 @@ def init():
 
     target = Target()
     game_world.add_object(target, 1)
+
+    ring = Ring()
+    game_world.add_object(ring, 2)
+
 
     ball = Ball()
     game_world.add_object(ball, 1)
@@ -66,6 +70,14 @@ def finish():
 
 def update():
     game_world.update()
+    if game_world.ring_ball_col(ball, ring):
+        ball.stop()
+        ring.stop()
+        target.stop()
+
+    if game_world.goal(ball, ring):
+        target.score_plus()
+        ring.score_plus()
 
 def draw():
     clear_canvas()

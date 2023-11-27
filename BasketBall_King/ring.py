@@ -3,11 +3,10 @@ import game_world
 import game_framework
 from ball import Ball
 
-class Target:
-    def __init__(self, x = 600, y = 600, pattern = 0, velocity = 1):
-        self.image = load_image('target.png')
+class Ring:
+    def __init__(self, x = 600, y = 475, pattern = 0, velocity = 1):
+        self.image = load_image('target2.png')
         self.x, self.y, self.pattern, self.velocity = x, y, pattern, velocity
-        self.font = load_font('ENCR10B.TTF', 50)
         self.score = 0
 
     def change_pattern(self):
@@ -26,9 +25,10 @@ class Target:
 
         if self.pattern == 0:
             self.x = 600
-            self.y = 600
+            self.y = 475
 
         elif self.pattern == 1:
+            print("a")
             if self.x > 750:
                 self.velocity = -1
             elif self.x < 450:
@@ -36,19 +36,24 @@ class Target:
             self.x += self.velocity * 50 * game_framework.frame_time
 
         elif self.pattern == 2:
-            if self.y > 650:
+            if self.y > 525:
                 self.velocity = -1
-            elif self.y < 550:
+            elif self.y < 425:
                 self.velocity = 1
             self.y += self.velocity * 50 * game_framework.frame_time
 
     def draw(self):
         self.image.draw(self.x, self.y)
         draw_rectangle(*self.get_bb())
-        self.font.draw(self.x-200, self.y + 170, f'{self.score: 03d}', (255, 0, 0))
 
     def get_bb(self):
-        return self.x - 200, self.y - 150, self.x + 200, self.y + 150
+        return self.x - 103, self.y - 8, self.x + 103, self.y + 8
+
+    def get_lc_point(self):
+        return self.x - 103, self.y
+
+    def get_rc_point(self):
+        return self.x + 103, self.y
 
     def stop(self):
         self.pattern = 0

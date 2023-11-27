@@ -39,17 +39,26 @@ def clear():
 def handle_collisions():
     pass
 
-def collide(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_bb()
-    left_b, bottom_b, right_b, top_b = b.get_bb()
+def ring_ball_col(a, b):  # 골대 충돌 일어났는지
+    ball_x, ball_y = a.get_c_point()
+    ring_lx, ring_ly = b.get_lc_point()
+    ring_rx, ring_ry = b.get_rc_point()
 
-    if left_a > right_b:
-        return False
-    if right_a < left_b:
-        return False
-    if top_a < bottom_b:
-        return False
-    if bottom_a > top_b:
-        return False
+    left_d = (ball_x - ring_lx)**2 + (ball_y - ring_ly)**2
+    right_d = (ball_x - ring_rx)**2 + (ball_y - ring_ry)**2
 
-    return True
+    if left_d <= 250 or right_d <= 250:
+        return True
+
+    return False
+
+def goal(a, b):  # 골인 했는지
+    ball_x, ball_y = a.get_c_point()
+    ring_lx, ring_ly = b.get_lc_point()
+    ring_rx, ring_ry = b.get_rc_point()
+
+    if ball_x > ring_lx and ball_x < ring_rx:
+        if abs(ball_y - ring_ly) < 0.5:
+            return True
+
+    return False

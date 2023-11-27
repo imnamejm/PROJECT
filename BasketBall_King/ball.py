@@ -6,15 +6,20 @@ import game_world
 def shoot_ball(e):
     return e[0] == 'INPUT' and e[1].type == SDL_MOUSEBUTTONUP and e[1].type == SDL_BUTTON_LEFT
 
+Gravity = 9.8
+
 class Ball:
     image = None
-
     def __init__(self):
         if Ball.image is None:
             Ball.image = load_image('basicball.png')
             self.state_machine = StateMachine(self)
+            self.grab = False
+            self.shoot = 0
             self.x, self.y, self.velocity = 600, 100, 1  # 1 = UP / -1 =DOWN
-            self.sx, self.sy = 600, 100  # sx, sy = shoot_x, shoot_y
+            self.prev_x, self.prev_y = 600, 100  # prevx, prevy = previous_x, previous_y
+            self.d_x = 0
+            self.speed = 160
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -29,40 +34,59 @@ class Ball:
 
         if self.y < 100:
             self.y = 100
+            self.velocity = 1
+            self.x = 600  # 공이 땅에 닿으면 처음 위치로
+            self.shoot = 0
         elif self.y > 700:
             self.y = 700
+            self.shoot = 2
+            self.speed = 140
 
-        # 중력
-        if self.y < 400:
-           self.y -= self.velocity * 100 * game_framework.frame_time
+        if not self.shoot == -1:
+            # 슛
+            if 700 > self.y > 400 and not self.grab:
+                if self.shoot == 0 or self.shoot == 1:
+                    self.shoot = 1
+                    self.y += self.speed * Gravity * game_framework.frame_time
+                    self.speed -= 50 * Gravity * game_framework.frame_time
+                    if self.speed < 0:
+                        self.speed = 0
+                        self.shoot = 2
 
-        # 슛
-        if 700 > self.y > 400:
-            self.y += self.velocity * 1 * game_framework.frame_time
-            self.x += (self.sy - 100 / self.sx - 600) * 1 * game_framework.frame_time
-            self.velocity = -1
+            # 중력
+            if not self.grab:
+                self.y -= Gravity * 70 * game_framework.frame_time
 
-        if self.y <= 700:
-            if self.velocity == -1:  # 공이 내려감
-                if self.y > 100:
-                    self.y += self.velocity * 10 * game_framework.frame_time
-                    self.x += (self.sy - 100 / self.sx - 600) * 10 * game_framework.frame_time
-                else:
-                    self.velocity = 1
+                if not self.d_x == 0:
+                    self.x += self.d_x * 100 * game_framework.frame_time
 
     def handle_event(self, event):
         pass
 
+    def stop(self):
+        self.shoot = -1  # 슛 실패 (골대와 충돌)
+
     def get_bb(self):
         return self.x - 50, self.y - 50, self.x + 50, self.y + 50
+
+    def get_c_point(self):
+        return self.x, self.y
 
     def put_mouse(self, mx, my):
         self.x = mx
         self.y = my
+        self.grab = True
 
-    def save_mouse(self, mx, my):
-        self.sx = mx
-        self.sy = my
+    def save_mouse(self):
+        self.grab = False
+        self.d_x = self.x - self.prev_x
+
+    def move_mouse(self, mx, my):
+        self.prev_x = self.x
+        self.prev_y = self.y
+
+        self.x = mx
+        self.y = my
 
 class Idle:
     @staticmethod
