@@ -6,6 +6,10 @@ from ball import Ball
 from target import Target
 from field import Field
 from ring import Ring
+from item import Item
+from settings import Setting
+from settings import Pause
+
 
 field_x, field_y = 1200, 800
 mouse_click = False
@@ -48,6 +52,9 @@ def init():
     global target
     global ball
     global ring
+    global item
+    global setting
+    global pause
 
     running = True
 
@@ -60,9 +67,17 @@ def init():
     ring = Ring()
     game_world.add_object(ring, 2)
 
-
     ball = Ball()
     game_world.add_object(ball, 1)
+
+    item = Item()
+    game_world.add_object(item, 2)
+
+    pause = Pause()
+    game_world.add_object(pause, 2)
+
+    setting = Setting()
+    game_world.add_object(setting, 2)
 
 def finish():
     game_world.clear()
