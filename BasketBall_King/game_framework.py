@@ -10,12 +10,14 @@ def change_mode(mode):
     stack.append(mode)
     mode.init()
 
+
 def push_mode(mode):
     global stack
     if (len(stack) > 0):
         stack[-1].pause()
     stack.append(mode)
     mode.init()
+
 
 def pop_mode(mode):
     global stack
@@ -25,14 +27,14 @@ def pop_mode(mode):
         # remove the current mode
         stack.pop()
 
-def quit():
-    global running
-    running= False
+    if (len(stack) > 0):
+        stack[-1].resume()
+
 
 def run(start_mode):
     global running, stack
     running = True
-    stack =[start_mode]
+    stack = [start_mode]
     start_mode.init()
 
     global frame_time
@@ -52,3 +54,7 @@ def run(start_mode):
         stack[-1].finish()
         stack.pop()
 
+
+def quit():
+    global running
+    running = False

@@ -1,5 +1,6 @@
 from pico2d import *
 import game_framework
+import title_mode
 
 import game_world
 from ball import Ball
@@ -26,8 +27,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            running = False
-            game_framework.quit()
+            game_framework.change_mode(title_mode)
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.button == SDL_BUTTON_LEFT:
                 mouse_click = True
@@ -93,6 +93,7 @@ def update():
     if game_world.goal(ball, ring):
         target.score_plus()
         ring.score_plus()
+        field.load_score()
 
 def draw():
     clear_canvas()

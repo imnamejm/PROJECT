@@ -1,0 +1,1 @@
+C:\Users\윤정민\Lib\site-packages\sdl2dll\dll
