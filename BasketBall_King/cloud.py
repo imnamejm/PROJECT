@@ -10,7 +10,8 @@ class Cloud:
         pass
 
     def draw(self):
-        self.image.draw(800, 750)
+        if self.score >= 60:
+            self.image.draw(800, 750)
 
     def score_load(self, score):
         self.score = score

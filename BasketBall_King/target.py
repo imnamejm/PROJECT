@@ -13,13 +13,23 @@ class Target:
     def change_pattern(self):
         if 0 <= self.score < 10:
             self.pattern = 0
-            self.velocity = 0
         elif 10 <= self.score < 20:
             self.pattern = 1
-            self.velocity = 1
         elif 20 <= self.score < 30:
             self.pattern = 2
-            self.velocity = 1
+        elif 30 <= self.score < 40:
+            self.pattern = 0
+        elif 40 <= self.score < 50:
+            self.pattern = 1
+        elif 50 <= self.score < 60:
+            self.pattern = 2
+        elif 60 <= self.score < 70:
+            self.pattern = 0
+        elif 70 <= self.score < 80:
+            self.pattern = 1
+        elif 80 <= self.score < 90:
+            self.pattern = 2
+
 
     def update(self):
         self.change_pattern()
@@ -53,6 +63,5 @@ class Target:
     def stop(self):
         self.pattern = 0
 
-    def score_plus(self):
-        self.score += 1
-
+    def score_load(self, score):
+        self.score = score

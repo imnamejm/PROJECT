@@ -17,7 +17,7 @@ class Ball:
             self.grab = False
             self.shoot = 0
             self.x, self.y, self.velocity = 600, 100, 1  # 1 = UP / -1 =DOWN
-            self.prev_x, self.prev_y = 600, 100  # prevx, prevy = previous_x, previous_y
+            self.prev_x, self.prev_y = 600, 100  # prev_x, prev_y = previous_x, previous_y
             self.d_x = 0
             self.speed = 160
 
@@ -87,6 +87,9 @@ class Ball:
 
         self.x = mx
         self.y = my
+
+    def ball_statement(self):
+        return self.shoot
 
 class Idle:
     @staticmethod

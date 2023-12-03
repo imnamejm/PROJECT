@@ -19,12 +19,12 @@ class Field:
             self.image2.draw(600, 400)
         elif 60 <= self.score < 90:
             self.image3.draw(600, 400)
-        elif self.score == 90:
+        elif self.score >= 90:
             self.clear_image.draw(600, 400)
 
 
-    def load_score(self):
-        self.score += 1
+    def score_load(self, score):
+        self.score = score
 
     def cheat(self):
         pass

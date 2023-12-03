@@ -1,10 +1,14 @@
 from pico2d import  load_image, SDL_KEYDOWN, get_events, SDL_QUIT, SDLK_ESCAPE, clear_canvas, update_canvas, SDLK_SPACE
 import game_framework
 import play_mode
+import tip_mode
 
 def init():
     global image
     image = load_image('title.png')
+
+def update():
+    pass
 
 def finish():
     global image
@@ -25,3 +29,9 @@ def draw():
     clear_canvas()
     image.draw(600, 400)
     update_canvas()
+
+def pause1():
+    pass
+
+def resume():
+    pass
