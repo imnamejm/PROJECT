@@ -10,6 +10,12 @@ class Target:
         self.font = load_font('ENCR10B.TTF', 50)
         self.score = 0
 
+    def init(self):
+        self.image = load_image('target.png')
+        self.x, self.y, self.pattern, self.velocity = 600, 600, 0, 1
+        self.font = load_font('ENCR10B.TTF', 50)
+        self.score = 0
+
     def change_pattern(self):
         if 0 <= self.score < 10:
             self.pattern = 0
@@ -29,7 +35,6 @@ class Target:
             self.pattern = 1
         elif 80 <= self.score < 90:
             self.pattern = 2
-
 
     def update(self):
         self.change_pattern()
@@ -54,7 +59,6 @@ class Target:
 
     def draw(self):
         self.image.draw(self.x, self.y)
-        draw_rectangle(*self.get_bb())
         self.font.draw(self.x-200, self.y + 170, f'{self.score: 03d}', (255, 0, 0))
 
     def get_bb(self):
@@ -65,3 +69,4 @@ class Target:
 
     def score_load(self, score):
         self.score = score
+

@@ -8,6 +8,13 @@ class Ring:
         self.image = load_image('target2.png')
         self.x, self.y, self.pattern, self.velocity = x, y, pattern, velocity
         self.score = 0
+        self.ball = 0
+
+    def init(self):
+        self.image = load_image('target2.png')
+        self.x, self.y, self.pattern, self.velocity = 600, 475, 0, 1
+        self.score = 0
+        self.ball = 0
 
     def change_pattern(self):
         if 0 <= self.score < 10:
@@ -38,7 +45,6 @@ class Ring:
             self.y = 475
 
         elif self.pattern == 1:
-            print("a")
             if self.x > 750:
                 self.velocity = -1
             elif self.x < 450:
@@ -53,8 +59,8 @@ class Ring:
             self.y += self.velocity * 50 * game_framework.frame_time
 
     def draw(self):
-        self.image.draw(self.x, self.y)
-        draw_rectangle(*self.get_bb())
+        if self.ball == 2:
+            self.image.draw(self.x, self.y)
 
     def get_bb(self):
         return self.x - 103, self.y - 8, self.x + 103, self.y + 8
@@ -70,3 +76,6 @@ class Ring:
 
     def score_load(self, score):
         self.score = score
+
+    def get_ball(self, ball_state):
+        self.ball = ball_state

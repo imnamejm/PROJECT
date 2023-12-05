@@ -2,9 +2,11 @@ C:\Users\윤정민\Lib\site-packages\sdl2dll\dll
 
 
 
-장애물 만들기
-
-E 누르면 다음 패턴 전까지 골대 멈추기 
+T 누르면 다음 패턴 전까지 골대 멈추기 
 -> target.py, ring.py 건들기
 
 -> 시간 남으면 스킨-> 안 남을 것 같음
+
+사운드
+
+골인 함수 보기
