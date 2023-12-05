@@ -2,22 +2,22 @@ from pico2d import *
 import random
 import game_framework
 
-class Cloud:
+class Bird:
     def __init__(self):
-        self.image = load_image('cloud3.png')
+        self.image = load_image('bird.png')
         self.score = 0
         self.x = random.randint(100, 1100)
         self.y = random.randint(400, 700)
-        self.velocity = 1
+        self.velocity = -1
 
     def update(self):
-        if self.x > 950:
-            self.velocity = -1
-        elif self.x < 150:
-            self.velocity = 1
+        if self.x < 0:
+            self.x = 1100
+            self.y = random.randint(400, 700)
         self.x += self.velocity * 100 * game_framework.frame_time
+
     def draw(self):
-        if self.score >= 60:
+        if 60 > self.score >= 30:
             self.image.draw(self.x, self.y)
 
     def score_load(self, score):
@@ -27,4 +27,10 @@ class Cloud:
         self.score = 0
         self.x = random.randint(100, 1100)
         self.y = random.randint(400, 700)
-        self.velocity = 1
+        self.velocity = -1
+
+    def get_bb(self):
+        return self.x - 50, self.y - 50, self.x + 50, self.y + 30
+
+    def stop(self):
+        self.velocity = 0
