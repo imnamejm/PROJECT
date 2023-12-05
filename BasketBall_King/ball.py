@@ -1,6 +1,5 @@
 from pico2d import *
 import game_framework
-import game_world
 
 
 def shoot_ball(e):
@@ -13,17 +12,25 @@ class Ball:
     def __init__(self):
         if Ball.image is None:
             Ball.image = load_image('basicball.png')
-            self.state_machine = StateMachine(self)
             self.grab = False
             self.shoot = 0
             self.x, self.y, self.velocity = 600, 100, 1  # 1 = UP / -1 =DOWN
             self.prev_x, self.prev_y = 600, 100  # prev_x, prev_y = previous_x, previous_y
             self.d_x = 0
             self.speed = 160
+            self.bgm = load_music('Coin 1.mp3')
+            self.bgm.set_volume(30)
+
+    def init(self):
+        self.grab = False
+        self.shoot = 0
+        self.x, self.y, self.velocity = 600, 100, 1  # 1 = UP / -1 =DOWN
+        self.prev_x, self.prev_y = 600, 100  # prev_x, prev_y = previous_x, previous_y
+        self.d_x = 0
+        self.speed = 160
 
     def draw(self):
         self.image.draw(self.x, self.y)
-        draw_rectangle(*self.get_bb())
 
     def update(self):
         # 공 이동 제한
@@ -37,6 +44,7 @@ class Ball:
             self.velocity = 1
             self.x = 600  # 공이 땅에 닿으면 처음 위치로
             self.shoot = 0
+
         elif self.y > 700:
             self.y = 700
             self.shoot = 2
@@ -90,64 +98,3 @@ class Ball:
 
     def ball_statement(self):
         return self.shoot
-
-class Idle:
-    @staticmethod
-    def select(ball, e):
-        pass
-
-    @staticmethod
-    def shoot(ball, e):
-        pass
-
-    @staticmethod
-    def stop(ball):
-        pass
-
-    @staticmethod
-    def draw(ball):
-        pass
-
-class Grab:
-    @staticmethod
-    def select(ball, e):
-        pass
-    @staticmethod
-    def shoot(ball, e):
-        pass
-
-    @staticmethod
-    def stop(ball):
-        pass
-
-    @staticmethod
-    def draw(ball):
-        pass
-
-class StateMachine:
-    def __init__(self, ball):
-        pass
-#        self.ball = ball
-#        self.cur_state = Idle
-#        self.transitions = {
-#            Idle: {shoot_ball: Grab},
-#            Grab: {shoot_ball: Idle}
-#        }
-    def update(self):
-        pass
-#        self.cur_state.stop(self.ball)
-
-
-    def handle_event(self, e):
-        pass
-#        for check_event, next_state in self.transitions[self.cur_state].items():
-#            if check_event(e):
-#                self.cur_state.select(self.ball, e)
-#                self.cur_state = next_state
-#                self.cur_state.shoot(self.ball, e)
-#                return True
-#        return False
-
-    def draw(self):
-        pass
-#        self.cur_state.draw(self.ball)

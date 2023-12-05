@@ -1,5 +1,6 @@
 from pico2d import *
 
+
 class Field:
     def __init__(self):
         self.score = 0
@@ -22,9 +23,15 @@ class Field:
         elif self.score >= 90:
             self.clear_image.draw(600, 400)
 
+        draw_rectangle(0,0,1200,400)
 
     def score_load(self, score):
         self.score = score
 
-    def cheat(self):
-        pass
+    def init(self):
+        self.score = 0
+        self.background_type = 1
+        self.image1 = load_image('field.png')
+        self.image2 = load_image('mountain.png')
+        self.image3 = load_image('sky.png')
+        self.clear_image = load_image('clear.png')
