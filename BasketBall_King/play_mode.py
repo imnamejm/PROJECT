@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import title_mode
 import tip_mode
+import random
 
 import game_world
 from ball import Ball
@@ -9,9 +10,9 @@ from target import Target
 from field import Field
 from ring import Ring
 from item import Item
-from settings import Setting
 from settings import Pause
 from cloud import Cloud
+from RETRY import Retry
 
 field_x, field_y = 1200, 800
 mouse_click = False
@@ -48,6 +49,15 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_y:
             game_framework.push_mode(tip_mode)
 
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_r:
+            retry.not_drawing()
+            ball.__init__()
+            target.__init__()
+            ring.__init__()
+            field.__init__()
+            cloud.__init__()
+
+
 
 
 def init():
@@ -56,10 +66,10 @@ def init():
     global ball
     global ring
     global item
-    global setting
     global pause
     global cloud
     global score
+    global retry
 
     running = True
 
@@ -81,11 +91,12 @@ def init():
     pause = Pause()
     game_world.add_object(pause, 2)
 
-    setting = Setting()
-    game_world.add_object(setting, 2)
-
+    # cloud = [Cloud() for _ in range(3)]
     cloud = Cloud()
     game_world.add_object(cloud, 3)
+
+    retry = Retry()
+    game_world.add_object(retry, 3)
 
     score = 0
 
@@ -103,6 +114,7 @@ def update():
             ball.stop()
             ring.stop()
             target.stop()
+            retry.do_drawing()
 
         if game_world.goal(ball, ring):
             score += 1
